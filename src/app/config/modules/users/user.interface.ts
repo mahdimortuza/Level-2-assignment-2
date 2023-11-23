@@ -1,0 +1,29 @@
+export type FullName = {
+  firstName: string;
+  lastName: string;
+};
+
+export type Address = {
+  street: string;
+  city: string;
+  country: string;
+};
+
+export type Orders = {
+  productName: string;
+  price: number;
+  quantity: number;
+};
+
+export type User = {
+  userId: number;
+  userName: string;
+  password: string;
+  fullName: FullName;
+  age: number;
+  email: string;
+  isActive: 'active' | 'inActive';
+  hobbies: string[];
+  address: Address;
+  orders: Orders[];
+};
