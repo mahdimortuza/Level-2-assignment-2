@@ -1,13 +1,17 @@
 import { Request, Response } from 'express';
 import { UserServices } from './user.service';
+import userValidationSchema from './user.validation';
 
 // create user  data on the database
 const createUser = async (req: Request, res: Response) => {
   try {
     const { user: userData } = req.body;
 
+    // user data validation using zod
+    const zodParsedUserData = userValidationSchema.parse(userData);
+
     // will call service function to send this data
-    const result = await UserServices.createUserIntoDB(userData);
+    const result = await UserServices.createUserIntoDB(zodParsedUserData);
 
     // send response
     res.status(200).json({
@@ -16,7 +20,14 @@ const createUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'Can not create the user',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    });
   }
 };
 
