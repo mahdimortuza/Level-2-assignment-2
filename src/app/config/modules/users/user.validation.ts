@@ -20,7 +20,10 @@ const orderValidationSchema = z.object({
 export const userValidationSchema = z.object({
   userId: z.number(),
   userName: z.string(),
-  password: z.string().min(6).max(10),
+  password: z
+    .string()
+    .min(6, { message: 'Password must be more than 6 characters' })
+    .max(20, { message: 'Password must be less than 20 characters' }),
   fullName: fullNameValidationSchema,
   age: z.number(),
   email: z.string().email(),

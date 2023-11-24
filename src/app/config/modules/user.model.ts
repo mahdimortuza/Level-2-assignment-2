@@ -1,7 +1,16 @@
+import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
-import { Address, FullName, Orders, User } from './users/user.interface';
+import config from '..';
+import {
+  TAddress,
+  TFullName,
+  TOrders,
+  TUser,
+  UserMethods,
+  UserModel,
+} from './users/user.interface';
 
-const fullNameSchema = new Schema<FullName>({
+const fullNameSchema = new Schema<TFullName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
@@ -14,7 +23,7 @@ const fullNameSchema = new Schema<FullName>({
   },
 });
 
-const addressSchema = new Schema<Address>({
+const addressSchema = new Schema<TAddress>({
   street: {
     type: String,
     required: [true, 'Street address is required'],
@@ -28,13 +37,13 @@ const addressSchema = new Schema<Address>({
   },
 });
 
-const orderSchema = new Schema<Orders>({
+const orderSchema = new Schema<TOrders>({
   productName: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
 });
 
-const userSchema = new Schema<User>({
+const userSchema = new Schema<TUser, UserModel, UserMethods>({
   userId: {
     type: Number,
     required: [true, 'User ID is required'],
@@ -83,4 +92,29 @@ const userSchema = new Schema<User>({
   orders: { type: [orderSchema], required: true },
 });
 
-export const UserModel = model<User>('User', userSchema);
+// pre save middleware / hook will work on create(), save()
+userSchema.pre('save', async function (next) {
+  // console.log(this, 'pre hook we will save the data');
+
+  //hashing password and saving into db
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_round),
+  );
+  next();
+});
+
+// post save middleware / hook
+userSchema.post('save', function () {
+  console.log(this, 'we saved our data');
+});
+
+// creating schema for interface
+userSchema.methods.isUserExists = async function (userId: string) {
+  const existingUser = await User.findOne({ userId });
+  return existingUser;
+};
+
+export const User = model<TUser, UserModel>('User', userSchema);

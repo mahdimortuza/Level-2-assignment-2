@@ -19,10 +19,10 @@ const createUser = async (req: Request, res: Response) => {
       message: 'User created successfully!',
       data: result,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: 'Can not create the user',
+      message: err.message || 'Can not create the user',
       error: {
         code: 404,
         description: 'User not found!',
