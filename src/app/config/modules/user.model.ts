@@ -4,7 +4,7 @@ import config from '..';
 import {
   TAddress,
   TFullName,
-  TOrders,
+  // TOrders,
   TUser,
   UserMethods,
   UserModel,
@@ -37,11 +37,11 @@ const addressSchema = new Schema<TAddress>({
   },
 });
 
-const orderSchema = new Schema<TOrders>({
-  productName: { type: String, required: true },
-  price: { type: Number, required: true },
-  quantity: { type: Number, required: true },
-});
+// const orderSchema = new Schema<TOrders>({
+//   productName: { type: String, required: true },
+//   price: { type: Number, required: true },
+//   quantity: { type: Number, required: true },
+// });
 
 const userSchema = new Schema<TUser, UserModel, UserMethods>({
   userId: {
@@ -89,7 +89,7 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({
     required: [true, 'Address is required'],
     trim: true,
   },
-  orders: { type: [orderSchema], required: true },
+  // orders: { type: [orderSchema], required: true },
 });
 
 // pre save middleware / hook will work on create(), save()
