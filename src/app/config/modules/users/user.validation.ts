@@ -19,7 +19,7 @@ const addressValidationSchema = z.object({
 
 export const userValidationSchema = z.object({
   userId: z.number(),
-  userName: z.string(),
+  username: z.string(),
   password: z.string(),
   fullName: fullNameValidationSchema,
   age: z.number(),
