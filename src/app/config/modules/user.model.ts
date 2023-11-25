@@ -90,6 +90,7 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({
     trim: true,
   },
   // orders: { type: [orderSchema], required: true },
+  isDeleted: { type: Boolean, default: false },
 });
 
 // pre save middleware / hook will work on create(), save()
@@ -109,7 +110,12 @@ userSchema.pre('save', async function (next) {
 // post save middleware / hook
 userSchema.post('save', function (doc, next) {
   doc.password = '';
-  console.log(this, 'we saved our data');
+  next();
+});
+
+// query middleware
+userSchema.pre('find', function (next) {
+  console.log(this);
   next();
 });
 

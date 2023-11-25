@@ -12,4 +12,7 @@ router.get('/api/users', UserControllers.getAllUsers);
 // get single user data from the database
 router.get('/api/users/:userId', UserControllers.getSingleUser);
 
+// delete user data from the database
+router.delete('/api/users/:userId', UserControllers.deleteUser);
+
 export const UsersRoutes = router;

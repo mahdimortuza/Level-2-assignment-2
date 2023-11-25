@@ -25,7 +25,7 @@ const createUser = async (req: Request, res: Response) => {
       message: err.message || 'Can not create the user',
       error: {
         code: 404,
-        description: 'User not found!',
+        description: 'User can not be created. Please try again!',
       },
     });
   }
@@ -41,8 +41,15 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: 'user retrieved successfully',
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Can not find the users',
+      error: {
+        code: 404,
+        description: 'User not found. Please, try again!',
+      },
+    });
   }
 };
 
@@ -56,8 +63,37 @@ const getSingleUser = async (req: Request, res: Response) => {
       message: 'user is retrieved successfully',
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Can not fnd the user',
+      error: {
+        code: 404,
+        description: 'User not found. Please, try again!',
+      },
+    });
+  }
+};
+
+// get single user data from the database
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserServices.deleteUserFromDB(userId);
+    res.status(200).json({
+      success: true,
+      message: 'user is deleted successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Can not fnd the user',
+      error: {
+        code: 404,
+        description: 'Can not delete the user. Please, try again!',
+      },
+    });
   }
 };
 
@@ -65,4 +101,5 @@ export const UserControllers = {
   createUser,
   getAllUsers,
   getSingleUser,
+  deleteUser,
 };
