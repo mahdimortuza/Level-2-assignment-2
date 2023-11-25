@@ -115,9 +115,19 @@ userSchema.post('save', function (doc, next) {
 
 // query middleware
 userSchema.pre('find', function (next) {
-  console.log(this);
+  this.find({ isDeleted: { $ne: true } });
   next();
 });
+
+userSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+// userSchema.pre('aggregate', function (next) {
+//   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+//   next();
+// });
 
 // creating schema for interface
 userSchema.methods.isUserExists = async function (userId: string) {
