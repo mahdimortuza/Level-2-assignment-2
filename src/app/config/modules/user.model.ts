@@ -74,9 +74,8 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({
     trim: true,
   },
   isActive: {
-    type: String,
-    enum: ['active', 'inActive'],
-    default: 'active',
+    type: Boolean,
+    default: true,
     required: true,
   },
   hobbies: {

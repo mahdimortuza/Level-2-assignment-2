@@ -24,7 +24,7 @@ export const userValidationSchema = z.object({
   fullName: fullNameValidationSchema,
   age: z.number(),
   email: z.string().email(),
-  isActive: z.enum(['active', 'inActive']).default('active'),
+  isActive: z.boolean(),
   hobbies: z.array(z.string()),
   address: addressValidationSchema,
   // orders: z.array(orderValidationSchema),

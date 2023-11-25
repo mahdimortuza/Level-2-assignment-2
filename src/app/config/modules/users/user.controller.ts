@@ -96,10 +96,32 @@ const deleteUser = async (req: Request, res: Response) => {
     });
   }
 };
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const { user: userData } = req.body;
+    const result = await UserServices.updateUserInBD({ userId }, userData);
+    res.status(200).json({
+      success: true,
+      message: 'user is updated successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Can not fnd the user',
+      error: {
+        code: 404,
+        description: 'Can not update the user. Please, try again!',
+      },
+    });
+  }
+};
 
 export const UserControllers = {
   createUser,
   getAllUsers,
   getSingleUser,
   deleteUser,
+  updateUser,
 };

@@ -15,4 +15,7 @@ router.get('/api/users/:userId', UserControllers.getSingleUser);
 // delete user data from the database
 router.delete('/api/users/:userId', UserControllers.deleteUser);
 
+// update user data in the database
+router.put('/api/users/:userId', UserControllers.updateUser);
+
 export const UsersRoutes = router;
