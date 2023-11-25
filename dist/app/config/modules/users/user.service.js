@@ -11,6 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserServices = void 0;
 const user_model_1 = require("../user.model");
+// get all users data from the database
+const getDefaultRoute = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = 'Hello world';
+    return result;
+});
 // create users data on the database
 const createUserIntoDB = (userData) => __awaiter(void 0, void 0, void 0, function* () {
     // const result = await UserModel.create(user); // built in static method
@@ -50,4 +55,5 @@ exports.UserServices = {
     getSingleUserFromDB,
     deleteUserFromDB,
     updateUserInBD,
+    getDefaultRoute,
 };

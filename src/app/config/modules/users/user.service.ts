@@ -1,6 +1,12 @@
 import { User } from '../user.model';
 import { TUser } from './user.interface';
 
+// get all users data from the database
+const getDefaultRoute = async () => {
+  const result = 'Hello world';
+  return result;
+};
+
 // create users data on the database
 const createUserIntoDB = async (userData: TUser) => {
   // const result = await UserModel.create(user); // built in static method
@@ -52,4 +58,5 @@ export const UserServices = {
   getSingleUserFromDB,
   deleteUserFromDB,
   updateUserInBD,
+  getDefaultRoute,
 };

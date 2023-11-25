@@ -3,6 +3,9 @@ import { UserControllers } from './user.controller';
 
 const router = express.Router();
 
+// default route
+router.get('/', UserControllers.defaultRoute);
+
 // create user  data on the database
 router.post('/api/users', UserControllers.createUser);
 

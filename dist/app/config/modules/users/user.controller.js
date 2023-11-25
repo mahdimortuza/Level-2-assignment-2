@@ -15,6 +15,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserControllers = void 0;
 const user_service_1 = require("./user.service");
 const user_validation_1 = __importDefault(require("./user.validation"));
+const defaultRoute = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield user_service_1.UserServices.getDefaultRoute();
+        res.status(200).json({
+            success: true,
+            message: 'server is running successfully',
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message || 'Can not run the server.',
+            error: {
+                code: 404,
+                description: 'server has some issues. Please, try again!',
+            },
+        });
+    }
+});
 // create user  data on the database
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -134,4 +154,5 @@ exports.UserControllers = {
     getSingleUser,
     deleteUser,
     updateUser,
+    defaultRoute,
 };

@@ -2,6 +2,26 @@ import { Request, Response } from 'express';
 import { UserServices } from './user.service';
 import userValidationSchema from './user.validation';
 
+const defaultRoute = async (req: Request, res: Response) => {
+  try {
+    const result = await UserServices.getDefaultRoute();
+    res.status(200).json({
+      success: true,
+      message: 'server is running successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Can not run the server.',
+      error: {
+        code: 404,
+        description: 'server has some issues. Please, try again!',
+      },
+    });
+  }
+};
+
 // create user  data on the database
 const createUser = async (req: Request, res: Response) => {
   try {
@@ -124,4 +144,5 @@ export const UserControllers = {
   getSingleUser,
   deleteUser,
   updateUser,
+  defaultRoute,
 };
