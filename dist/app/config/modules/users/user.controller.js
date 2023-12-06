@@ -67,7 +67,7 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const result = yield user_service_1.UserServices.getAllUserFromDB();
         res.status(200).json({
             success: true,
-            message: 'user retrieved successfully',
+            message: 'user fetched successfully',
             data: result,
         });
     }
@@ -89,7 +89,7 @@ const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const result = yield user_service_1.UserServices.getSingleUserFromDB(userId);
         res.status(200).json({
             success: true,
-            message: 'user is retrieved successfully',
+            message: 'user is fetched successfully',
             data: result,
         });
     }

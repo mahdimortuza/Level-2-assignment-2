@@ -1,14 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
-import config from '..';
-import {
-  TAddress,
-  TFullName,
-  // TOrders,
-  TUser,
-  UserMethods,
-  UserModel,
-} from './users/user.interface';
+import config from '../..';
+import { TAddress, TFullName, TUser } from './user.interface';
 
 const fullNameSchema = new Schema<TFullName>({
   firstName: {
@@ -37,13 +30,7 @@ const addressSchema = new Schema<TAddress>({
   },
 });
 
-// const orderSchema = new Schema<TOrders>({
-//   productName: { type: String, required: true },
-//   price: { type: Number, required: true },
-//   quantity: { type: Number, required: true },
-// });
-
-const userSchema = new Schema<TUser, UserModel, UserMethods>({
+const userSchema = new Schema<TUser>({
   userId: {
     type: Number,
     required: [true, 'User ID is required'],
@@ -88,7 +75,16 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({
     required: [true, 'Address is required'],
     trim: true,
   },
-  // orders: { type: [orderSchema], required: true },
+  orders: {
+    type: [
+      {
+        productName: { type: String },
+        price: { type: Number },
+        quantity: { type: Number },
+      },
+    ],
+    required: true,
+  },
   isDeleted: { type: Boolean, default: false },
 });
 
@@ -123,15 +119,10 @@ userSchema.pre('findOne', function (next) {
   next();
 });
 
-// userSchema.pre('aggregate', function (next) {
-//   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
-//   next();
-// });
+// // creating schema for interface
+// userSchema.methods.isUserExists = async function (userId: string) {
+//   const existingUser = await User.findOne({ userId });
+//   return existingUser;
+// };
 
-// creating schema for interface
-userSchema.methods.isUserExists = async function (userId: string) {
-  const existingUser = await User.findOne({ userId });
-  return existingUser;
-};
-
-export const User = model<TUser, UserModel>('User', userSchema);
+export const UserModel = model<TUser>('User', userSchema);

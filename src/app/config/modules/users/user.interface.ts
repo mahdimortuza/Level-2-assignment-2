@@ -1,5 +1,3 @@
-import { Model } from 'mongoose';
-
 export type TFullName = {
   firstName: string;
   lastName: string;
@@ -11,12 +9,6 @@ export type TAddress = {
   country: string;
 };
 
-// export type TOrders = {
-//   productName: string;
-//   price: number;
-//   quantity: number;
-// };
-
 export type TUser = {
   userId: number;
   username: string;
@@ -27,17 +19,10 @@ export type TUser = {
   isActive: boolean;
   hobbies: string[];
   address: TAddress;
-  // orders: TOrders[];
+  orders?: {
+    productName: string;
+    price: number;
+    quantity: number;
+  }[];
   isDeleted: boolean;
 };
-
-// interface IUserMethods {
-//   fullName(): string;
-// }
-// Create a new Model type that knows about IUserMethods...
-
-export type UserMethods = {
-  isUserExists(userId: string): Promise<TUser | null>;
-};
-
-export type UserModel = Model<TUser, Record<string, never>, UserMethods>;
