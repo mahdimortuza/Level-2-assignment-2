@@ -1,8 +1,8 @@
 import { TUser } from './user.interface';
 import { UserModel } from './user.model';
 
-const createUserIntoDB = async (userData: TUser) => {
-  const result = await UserModel.create(userData);
+const createUserIntoDB = async (user: TUser) => {
+  const result = await UserModel.create(user);
   return result;
 };
 
@@ -27,17 +27,6 @@ const deleteUserFromDB = async (userId: string) => {
   const result = await UserModel.updateOne({ userId }, { isDeleted: true });
   return result;
 };
-
-// const addProductToUser = async (userId: string, product: any) => {
-//   const user = await UserModel.findOne({ userId });
-//   console.log(user.orders);
-//   if (!user) {
-//     return null;
-//   }
-//   user?.orders.push(product);
-//   const result = await user.save();
-//   return result;
-// };
 
 const addProductToUser = async (userId: string, product: any) => {
   const user = await UserModel.findOne({ userId });
