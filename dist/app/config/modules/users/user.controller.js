@@ -15,38 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserControllers = void 0;
 const user_service_1 = require("./user.service");
 const user_validation_1 = __importDefault(require("./user.validation"));
-const defaultRoute = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield user_service_1.UserServices.getDefaultRoute();
-        res.status(200).json({
-            success: true,
-            message: 'server is running successfully',
-            data: result,
-        });
-    }
-    catch (err) {
-        res.status(500).json({
-            success: false,
-            message: err.message || 'Can not run the server.',
-            error: {
-                code: 404,
-                description: 'server has some issues. Please, try again!',
-            },
-        });
-    }
-});
-// create user  data on the database
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { user: userData } = req.body;
-        // user data validation using zod
-        const zodParsedUserData = user_validation_1.default.parse(userData);
-        // will call service function to send this data
-        const result = yield user_service_1.UserServices.createUserIntoDB(zodParsedUserData);
-        // send response
+        const user = req.body;
+        const zodParsedData = user_validation_1.default.parse(user);
+        const result = yield user_service_1.UserServices.createUserIntoDB(zodParsedData);
         res.status(200).json({
             success: true,
-            message: 'User created successfully!',
+            message: 'User is created successfully!',
             data: result,
         });
     }
@@ -61,13 +37,12 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
-// get all users data from the database
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield user_service_1.UserServices.getAllUserFromDB();
+        const result = yield user_service_1.UserServices.getAllUsersFromDB();
         res.status(200).json({
             success: true,
-            message: 'user fetched successfully',
+            message: 'users are fetched successfully',
             data: result,
         });
     }
@@ -77,12 +52,11 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             message: err.message || 'Can not find the users',
             error: {
                 code: 404,
-                description: 'User not found. Please, try again!',
+                description: 'Users not found. Please, try again!',
             },
         });
     }
 });
-// get single user data from the database
 const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
@@ -104,7 +78,28 @@ const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
-// get single user data from the database
+const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId } = req.params;
+        const user = req.body;
+        const result = yield user_service_1.UserServices.updateUserInBD({ userId }, user);
+        res.status(200).json({
+            success: true,
+            message: 'user is updated successfully',
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message || 'Can not fnd the user',
+            error: {
+                code: 404,
+                description: 'Can not update the user. Please, try again!',
+            },
+        });
+    }
+});
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
@@ -126,33 +121,37 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
-const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { userId } = req.params;
-        const { user: userData } = req.body;
-        const result = yield user_service_1.UserServices.updateUserInBD({ userId }, userData);
-        res.status(200).json({
-            success: true,
-            message: 'user is updated successfully',
-            data: result,
-        });
-    }
-    catch (err) {
-        res.status(500).json({
-            success: false,
-            message: err.message || 'Can not fnd the user',
-            error: {
-                code: 404,
-                description: 'Can not update the user. Please, try again!',
-            },
-        });
-    }
-});
+// const addProduct = async (req: Request, res: Response) => {
+//   try {
+//     const { userId } = req.params;
+//     const product = req.body;
+//     const result = await UserServices.addProductToUser(userId, product);
+//     if (!result) {
+//       res.status(200).json({
+//         success: true,
+//         message: 'Can not fnd the user',
+//         data: result,
+//       });
+//       return;
+//     }
+//     res.status(200).json({
+//       success: true,
+//       message: 'Order created successfully!',
+//       data: null,
+//     });
+//   } catch (err: any) {
+//     res.status(500).json({
+//       success: false,
+//       message: err.message || 'something went wrong',
+//       error: err,
+//     });
+//   }
+// };
 exports.UserControllers = {
     createUser,
     getAllUsers,
     getSingleUser,
-    deleteUser,
     updateUser,
-    defaultRoute,
+    deleteUser,
+    // addProduct,
 };

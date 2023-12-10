@@ -10,50 +10,45 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserServices = void 0;
-const user_model_1 = require("../user.model");
-// get all users data from the database
-const getDefaultRoute = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = 'Hello world';
+const user_model_1 = require("./user.model");
+const createUserIntoDB = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.create(user);
     return result;
 });
-// create users data on the database
-const createUserIntoDB = (userData) => __awaiter(void 0, void 0, void 0, function* () {
-    // const result = await UserModel.create(user); // built in static method
-    const user = new user_model_1.User(userData); // create an instance
-    if (yield user.isUserExists(userData.userId)) {
-        throw new Error('User already exists.');
-    }
-    const result = yield user.save(); // built in instance method provided by mongoose
+const getAllUsersFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.find();
     return result;
 });
-// get all users data from the database
-const getAllUserFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.User.find();
-    return result;
-});
-// get single user data from the database
 const getSingleUserFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.User.findOne({ userId });
-    // const result = await User.aggregate([{ $match: { userId: userId } }]);
+    const result = yield user_model_1.UserModel.findOne({ userId });
     return result;
 });
-// delete user data from the database
-const deleteUserFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.User.updateOne({ userId }, { isDeleted: true });
-    return result;
-});
-// delete user data from the database
 const updateUserInBD = (userId, userData) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.User.findOneAndUpdate(userId, userData, {
+    const result = yield user_model_1.UserModel.findOneAndUpdate(userId, userData, {
         new: true,
     });
     return result;
 });
+const deleteUserFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.updateOne({ userId }, { isDeleted: true });
+    return result;
+});
+// const addProductToUser = async (userId: string, product: any) => {
+//   const user = await UserModel.findOne({ userId });
+//   if (!user) {
+//     return null;
+//   }
+//   console.log(product);
+//   user.orders.push(product);
+//   // const givenUser = user.orders;
+//   const result = await user.save();
+//   return result;
+// };
 exports.UserServices = {
     createUserIntoDB,
-    getAllUserFromDB,
+    getAllUsersFromDB,
     getSingleUserFromDB,
-    deleteUserFromDB,
     updateUserInBD,
-    getDefaultRoute,
+    deleteUserFromDB,
+    // addProductToUser,
 };

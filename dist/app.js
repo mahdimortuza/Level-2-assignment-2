@@ -11,5 +11,8 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // application routes
-app.use('/', user_route_1.UsersRoutes);
+app.use('/', user_route_1.UserRoutes);
+app.get('/', (req, res) => {
+    res.send('Hello world! from the server.');
+});
 exports.default = app;

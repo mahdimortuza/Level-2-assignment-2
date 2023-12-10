@@ -28,24 +28,24 @@ const deleteUserFromDB = async (userId: string) => {
   return result;
 };
 
-const addProductToUser = async (userId: string, product: any) => {
-  const user = await UserModel.findOne({ userId });
-  if (!user) {
-    return null;
-  }
-  console.log(product);
+// const addProductToUser = async (userId: string, product: any) => {
+//   const user = await UserModel.findOne({ userId });
+//   if (!user) {
+//     return null;
+//   }
+//   console.log(product);
 
-  user.orders.push(product);
-  // const givenUser = user.orders;
+//   user.orders.push(product);
+//   // const givenUser = user.orders;
 
-  const result = await user.save();
-  return result;
-};
+//   const result = await user.save();
+//   return result;
+// };
 export const UserServices = {
   createUserIntoDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
   updateUserInBD,
   deleteUserFromDB,
-  addProductToUser,
+  // addProductToUser,
 };

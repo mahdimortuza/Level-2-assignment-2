@@ -112,33 +112,33 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-const addProduct = async (req: Request, res: Response) => {
-  try {
-    const { userId } = req.params;
-    const product = req.body;
-    const result = await UserServices.addProductToUser(userId, product);
+// const addProduct = async (req: Request, res: Response) => {
+//   try {
+//     const { userId } = req.params;
+//     const product = req.body;
+//     const result = await UserServices.addProductToUser(userId, product);
 
-    if (!result) {
-      res.status(200).json({
-        success: true,
-        message: 'Can not fnd the user',
-        data: result,
-      });
-      return;
-    }
-    res.status(200).json({
-      success: true,
-      message: 'Order created successfully!',
-      data: null,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'something went wrong',
-      error: err,
-    });
-  }
-};
+//     if (!result) {
+//       res.status(200).json({
+//         success: true,
+//         message: 'Can not fnd the user',
+//         data: result,
+//       });
+//       return;
+//     }
+//     res.status(200).json({
+//       success: true,
+//       message: 'Order created successfully!',
+//       data: null,
+//     });
+//   } catch (err: any) {
+//     res.status(500).json({
+//       success: false,
+//       message: err.message || 'something went wrong',
+//       error: err,
+//     });
+//   }
+// };
 
 export const UserControllers = {
   createUser,
@@ -146,5 +146,5 @@ export const UserControllers = {
   getSingleUser,
   updateUser,
   deleteUser,
-  addProduct,
+  // addProduct,
 };
